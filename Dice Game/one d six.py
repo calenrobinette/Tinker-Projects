@@ -26,9 +26,27 @@ while toggle:
     # Array for dice results
     diceArray = []
 
-    # User inputs for number of dice and number of faces on each die
-    numDice = int(input("How many dice would you like to roll? "))
-    numFaces = int(input("And how many sides are there on the dice? "))
+    # User inputs for number of dice and number of faces on each die allowing for only appropriate results
+    while True:
+        numDice = int(input("How many dice would you like to roll? "))
+        if str(numDice).isdigit() and numDice <= 1000:
+            numDice = numDice
+            break
+        else:
+            print("""
+                  Response must be a positive integer under 1001.
+                  Please try again.
+                  """)
+    while True:
+        numFaces = int(input("And how many sides are there on the dice? "))
+        if str(numFaces).isdigit() and numFaces <= 100:
+            numFaces = numFaces
+            break
+        else:
+            print("""
+                  Response must be a postitive interget less than or equal to 100.
+                  Please try again.
+                  """)
     
     # Feedback to show results were recieved
     print("Rolling...\n")
@@ -36,9 +54,16 @@ while toggle:
     # Assigns a random number for each dice using the user input as the max
     for i in range(numDice):
         diceArray.append(ran.randint(1,numFaces))
+    
+    # Calculates total and stores array entries as a str    
+    diceSum = str(np.sum(diceArray))
+    diceResults = ", ".join(str(x) for x in diceArray)
         
     # Prints summed results as well as each dice roll
-    print("You rolled " + str(np.sum(diceArray)) + "! (" + ", ".join(str(x) for x in diceArray) + ")")
+    if numDice > 1:
+        print("You rolled %s! (%s)" % (diceSum, diceResults))
+    else:
+        print("You rolled %s!" % diceSum)
     
     # Asks user if they want to roll again accepting only yes or no
     while True:
